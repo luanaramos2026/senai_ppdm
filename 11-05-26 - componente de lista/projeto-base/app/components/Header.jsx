@@ -18,7 +18,7 @@ const estilos = StyleSheet.create({
     titulo:{
         fontSize:24,
         fontWeight:700,
-        color:'whte'
+        color:'white'
     },
     subtitulo:{
         fontSize:14,
