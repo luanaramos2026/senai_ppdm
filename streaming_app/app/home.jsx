@@ -13,29 +13,27 @@ import { router } from 'expo-router';
 export default function Home() {
   return (
     <View style={styles.container}>
-
       <Text style={styles.titulo}>
-        🎵 Wave Music
+        🎵 GoldBeat
       </Text>
 
       <TouchableOpacity
-  style={{
-    backgroundColor: '#D4AF37',
-    padding: 12,
-    borderRadius: 12,
-    marginBottom: 20,
-  }}
-  onPress={() => router.push('/favoritos')}
->
-  <Text
-    style={{
-      textAlign: 'center',
-      fontWeight: 'bold',
-    }}
-  >
-    Favoritos
-  </Text>
-</TouchableOpacity>
+        style={styles.botao}
+        onPress={() => router.push('/favoritos')}
+      >
+        <Text style={styles.textoBotao}>
+          Favoritos
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => router.push('/playlists')}
+      >
+        <Text style={styles.textoBotao}>
+          Playlists
+        </Text>
+      </TouchableOpacity>
 
       <FlatList
         data={musicas}
@@ -60,5 +58,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#D4AF37',
+  },
+
+  botao: {
+    backgroundColor: '#D4AF37',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 15,
+  },
+
+  textoBotao: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#000',
   },
 });
