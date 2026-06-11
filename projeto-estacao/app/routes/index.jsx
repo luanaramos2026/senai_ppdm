@@ -4,54 +4,52 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 //import das telas
 import Login from '../pages/login';
-import DashBoard from '../pages/dashboard';
-import Registro from '../pages/registro';
+import Dashboard from '../pages/dashboard';
 import Cadastro from '../pages/cadastro';
-import Relatorio from '../pages/relatorio';
+import Registro from '../pages/registro';
+import Relatorio from '../pages/relatorio'
 
 //import dos navegadores
 const Stack = createStackNavigator();
-
 const Draw = createDrawerNavigator();
 
-
-
 function MenuSuperior() {
-    <Draw.Navigator
-        screenOptions={({ route }) => ({
-            headerShown: true,
-            drawerActiveTintColor: '#FF914D',
-            drawerInactiveTintColor: '#777',
-            drawerIcon: ({ color, size, focused }) => {
-                let nomeIcone = 'menu-outline';
+    return (
+        <Draw.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: true,
+                drawerActiveTintColor: '#FF914D',
+                drawerInactiveTintColor: '#777',
+                drawerIcon: ({ color, size, focused }) => {
+                    let nomeIcone = 'menu-outline';
 
-                if (route.name === 'Início') {
-                    iconName = focused ? 'book' : 'book-outline';
-                }
+                    if (route.name === 'Início') {
+                        nomeIcone = focused ? 'book' : 'book-outline';
+                    }
 
-                if (route.name === 'Cadastro') {
-                    nomeIcone = focused ? 'person-add' : 'person-add-outline'
-
+                    if (route.name === 'Cadastro') {
+                        nomeIcone = focused ? 'person-add' : 'person-add-outline'
+                    }
+                    if (route.name === 'Relatorio') {
+                        nomeIcone = focused ? 'people' : 'people-outline'
+                    }
+                    return <Ionicons name={nomeIcone} size={size} color={color} />
                 }
-                if (route.name === 'Profissionais') {
-                    nomeIcone = focused ? 'people' : 'people-outline'
-                }
-                return <Ionicon name={nomeIcone} size={size} color={color} />
-            },
-        })}
-    >
-        <Draw.Screen name='Início' component={AbasInferiores} />
-        <Draw.Screen name='Atendimentos' component={<Atendimentos />} />
-        <Draw.Screen name='Profissionais' component={<Profissionais />} />
-    </Draw.Navigator>
+            })}
+        >
+            <Draw.Screen name='Estação Meteorológica' component={Dashboard} options={{headerTitleAlign: 'center'}} />
+            <Draw.Screen name='Cadastro' component={Cadastro} />
+            <Draw.Screen name='Relatório' component={Relatorio} />
+        </Draw.Navigator>
+    )
 }
 
 export default function Rotas() {
     return (
         <Stack.Navigator>
             <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name='Início' component={Cadastro} options={{ title: 'Cadastro de usuário' }} />
-            <Stack.Screen name='Registro' component={MenuSuperior} options={{ headerShown: false }} />
+            <Stack.Screen name='Inicio' component={MenuSuperior} options={{ headerShown: false , title: ''}} />
+            <Stack.Screen name='Registro' component={Registro} options={{headerShown: false }} />
         </Stack.Navigator>
     )
 }

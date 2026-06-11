@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from 'react';
 import {
   Image,
   StatusBar,
@@ -8,8 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Img from "../../assets/images/imagem.jpg";
+import Img from '../../assets/images/imagem.jpg'
+
 export default function Login({ navigation }) {
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha ] = useState('');
   return (
     <View style={estilos.container}>
       <StatusBar barStyle="light-content" backgroundColor="#2c98bf" />
@@ -24,6 +28,8 @@ export default function Login({ navigation }) {
           placeholder="Digite seu usuário"
           placeholderTextColor="#76b9d8"
           style={estilos.input}
+          value={usuario}
+          onChangeText={setUsuario}
         />
 
         <TextInput
@@ -31,6 +37,8 @@ export default function Login({ navigation }) {
           placeholderTextColor="#76b9d8"
           secureTextEntry={true}
           style={estilos.input}
+          value={senha}
+          onChangeText={setSenha}
         />
 
         <TouchableOpacity
@@ -39,12 +47,37 @@ export default function Login({ navigation }) {
         >
           <Text style={estilos.textoBotao}>Entrar</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+  style={estilos.botaoCadastro}
+  onPress={() => navigation.navigate("Registro")}
+>
+  <Text style={estilos.textoCadastro}>
+    Criar conta
+  </Text>
+</TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const estilos = StyleSheet.create({
+  botaoCadastro: {
+  width: "100%",
+  height: 55,
+  backgroundColor: "#FFFFFF",
+  borderRadius: 15,
+  borderWidth: 2,
+  borderColor: "#0F766E",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 15,
+},
+
+textoCadastro: {
+  color: "#0F766E",
+  fontSize: 17,
+  fontWeight: "bold",
+},
   container: {
     flex: 1,
     backgroundColor: "#2c98bf",
