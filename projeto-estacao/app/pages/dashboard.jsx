@@ -4,32 +4,21 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
 
-const larguraTela = Dimensions.get("window").width;
-const larguraGrafico = larguraTela - 70;
-
 export default function Dashboard() {
+  const { width } = useWindowDimensions();
+
+  const larguraGrafico = width - 70;
+
   const dadosGraficoLinha = {
-    labels: [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez",
-    ],
+    labels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
     datasets: [
       {
-        data: [3, 5, 7, 11, 13, 15, 18, 20, 22, 25, 30, 35],
+        data: [3, 5, 7, 11, 13, 15],
+        strokeWidth: 3,
       },
     ],
     legend: ["Medições"],
@@ -40,22 +29,22 @@ export default function Dashboard() {
       name: "Airport",
       temp: 45,
       color: "#215a13",
-      legendFontColor: "#333",
-      legendFontSize: 12,
+      legendFontColor: "transparent",
+      legendFontSize: 0,
     },
     {
       name: "Centro",
       temp: 17,
       color: "#8ac039",
-      legendFontColor: "#333",
-      legendFontSize: 12,
+      legendFontColor: "transparent",
+      legendFontSize: 0,
     },
     {
       name: "Esplanada",
       temp: 27,
       color: "#39c078",
-      legendFontColor: "#333",
-      legendFontSize: 12,
+      legendFontColor: "transparent",
+      legendFontSize: 0,
     },
   ];
 
@@ -64,20 +53,31 @@ export default function Dashboard() {
     backgroundGradientFrom: "#1976D2",
     backgroundGradientTo: "#42A5F5",
     decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(255,255,255,${opacity})`,
-    labelColor: (opacity = 1) => `rgba(255,255,255,${opacity})`,
+
+    color: (opacity = 1) =>
+      `rgba(255,255,255,${opacity})`,
+
+    labelColor: (opacity = 1) =>
+      `rgba(255,255,255,${opacity})`,
+
     propsForDots: {
       r: "5",
       strokeWidth: "2",
       stroke: "#FFF",
     },
+
+    propsForBackgroundLines: {
+      stroke: "#87CEFA",
+    },
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.titulo}>🌦 Dashboard Meteorológico</Text>
+      <Text style={styles.titulo}>
+        🌦 Dashboard Meteorológico
+      </Text>
 
-      {/* Cards de Resumo */}
+      {/* Cards Resumo */}
       <View style={styles.resumoContainer}>
         <View style={styles.resumoCard}>
           <Text style={styles.resumoNumero}>35°C</Text>
@@ -95,34 +95,43 @@ export default function Dashboard() {
         </View>
       </View>
 
-      {/* Gráfico Linha */}
+      {/* Gráfico de Linha */}
       <View style={styles.card}>
-        <Text style={styles.subtitulo}>📈 Medições Mensais</Text>
+        <Text style={styles.subtitulo}>
+          📈 Medições Mensais
+        </Text>
 
-        <LineChart
-          data={dadosGraficoLinha}
-          width={larguraGrafico}
-          height={220}
-          chartConfig={chartConfig}
-          bezier
-          style={styles.grafico}
-        />
+        <View style={styles.graficoContainer}>
+          <LineChart
+            data={dadosGraficoLinha}
+            width={larguraGrafico}
+            height={220}
+            chartConfig={chartConfig}
+            bezier
+            style={styles.grafico}
+          />
+        </View>
       </View>
 
       {/* Gráfico Pizza */}
       <View style={styles.card}>
-        <Text style={styles.subtitulo}>🌡 Temperatura por Região</Text>
+        <Text style={styles.subtitulo}>
+          🌡 Temperatura por Região
+        </Text>
 
-        <PieChart
-          data={dadosGraficoPizza}
-          width={larguraGrafico}
-          height={220}
-          chartConfig={chartConfig}
-          accessor="temp"
-          backgroundColor="transparent"
-          paddingLeft="15"
-          absolute
-        />
+        <View style={styles.graficoContainer}>
+          <PieChart
+            data={dadosGraficoPizza}
+            width={larguraGrafico}
+            height={220}
+            chartConfig={chartConfig}
+            accessor="temp"
+            backgroundColor="transparent"
+            paddingLeft="15"
+            absolute
+            style={styles.grafico}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -132,14 +141,14 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#F1F5F9",
-    paddingHorizontal: 12,
-    paddingVertical: 20,
+    padding: 15,
   },
 
   titulo: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#1565C0",
+    textAlign: "center",
     marginBottom: 25,
   },
 
@@ -151,7 +160,7 @@ const styles = StyleSheet.create({
 
   resumoCard: {
     width: "31%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
     borderRadius: 18,
     paddingVertical: 18,
     alignItems: "center",
@@ -168,7 +177,7 @@ const styles = StyleSheet.create({
   },
 
   resumoNumero: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#1976D2",
   },
@@ -180,13 +189,10 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
     borderRadius: 20,
     padding: 15,
     marginBottom: 25,
-
-    borderLeftWidth: 5,
-    borderLeftColor: "#1976D2",
 
     shadowColor: "#000",
     shadowOffset: {
@@ -197,20 +203,23 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
 
     elevation: 5,
-
     overflow: "hidden",
   },
 
   subtitulo: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#1565C0",
     textAlign: "center",
     marginBottom: 15,
   },
 
+  graficoContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+
   grafico: {
     borderRadius: 16,
-    alignSelf: "center",
   },
 });
